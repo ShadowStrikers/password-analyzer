@@ -4,7 +4,7 @@ A privacy-preserving password auditing tool that combines
 rule-based heuristics with AI-generated security explanations.
 
 ## Live Demo
-[Try it here](https://yourusername.github.io/password-analyzer)
+[Try it here](https://ShadowStrikers.github.io/password-analyzer)
 
 ## How it works
 - Checks length, character variety, and common patterns locally in the browser
