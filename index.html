@@ -11,29 +11,36 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #0a0e0a;
-    --surface: #111611;
-    --surface2: #161d16;
-    --border: rgba(0,255,80,0.12);
-    --border2: rgba(0,255,80,0.25);
-    --green: #00ff50;
-    --green-faint: rgba(0,255,80,0.08);
+    --bg: #060d06;
+    --surface: #0a1409;
+    --surface2: #0e1a0d;
+    --border: rgba(57,255,20,0.14);
+    --border2: rgba(57,255,20,0.28);
+    --green: #39ff14;
+    --green-faint: rgba(57,255,20,0.08);
     --red: #ff3b3b;
-    --text: #c8ddc8;
-    --text-dim: #5a7a5a;
+    --text: #c8ddc0;
+    --text-dim: #527a4a;
     --mono: 'IBM Plex Mono', monospace;
   }
 
-  body { background: var(--bg); color: var(--text); font-family: var(--mono); min-height: 100vh; }
+  body {
+    background: #060d06;
+    background-image:
+      radial-gradient(circle at top left, #39ff1420, transparent 32%),
+      radial-gradient(circle at bottom right, #39ff1415, transparent 28%),
+      linear-gradient(180deg, #070a07, #08090a 35%, #050705);
+    color: var(--text); font-family: var(--mono); min-height: 100vh;
+  }
   .wrap { max-width: 640px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
 
-  /* Header */
+  /* ── Header ── */
   .header { margin-bottom: 1.75rem; }
   .header-label { font-size: 10px; letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; }
   .header h1 { font-size: 22px; font-weight: 600; color: var(--green); line-height: 1.2; }
   .header p { font-size: 12px; color: var(--text-dim); margin-top: 8px; line-height: 1.6; }
 
-  /* Input */
+  /* ── Input ── */
   .input-row { display: flex; gap: 8px; margin-bottom: 6px; }
   .pw-wrap { position: relative; flex: 1; }
   .pw-input {
@@ -42,62 +49,147 @@
     font-family: var(--mono); font-size: 15px; color: var(--text);
     outline: none; transition: border-color 0.2s; letter-spacing: 0.05em;
   }
-  .pw-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(0,255,80,0.08); }
+  .pw-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(57,255,20,0.08); }
   .pw-input::placeholder { color: var(--text-dim); letter-spacing: 0; }
   .toggle-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 16px; padding: 4px; transition: color 0.15s; }
   .toggle-btn:hover { color: var(--green); }
   .gen-btn { background: var(--green-faint); border: 1px solid var(--border2); border-radius: 4px; padding: 0 14px; font-family: var(--mono); font-size: 11px; color: var(--green); cursor: pointer; letter-spacing: 0.06em; white-space: nowrap; transition: background 0.2s, border-color 0.2s; }
-  .gen-btn:hover { background: rgba(0,255,80,0.14); border-color: var(--green); }
-
+  .gen-btn:hover { background: rgba(57,255,20,0.14); border-color: var(--green); }
   .input-meta { display: flex; justify-content: flex-end; font-size: 11px; color: var(--text-dim); margin-bottom: 1.25rem; min-height: 16px; }
 
-  /* Meter */
-  .meter-wrap { margin-bottom: 1.5rem; }
-  .meter-bar { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
-  .meter-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease, background 0.4s ease; width: 0%; }
-  .meter-row { display: flex; justify-content: space-between; align-items: center; }
-  .meter-label { font-size: 11px; color: var(--text-dim); }
-  .meter-score { font-size: 11px; font-weight: 600; }
+  /* ── Score Card ── */
+  .score-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem 1.15rem 1.15rem;
+    margin-bottom: 1.25rem;
+  }
+  .score-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.85rem;
+  }
+  .live-badge {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(57,255,20,0.07);
+    border: 1px solid rgba(57,255,20,0.18);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px; font-weight: 600;
+    color: var(--green); letter-spacing: 0.12em;
+  }
+  .live-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px rgba(57,255,20,0.7);
+    animation: pulse-live 2s ease-in-out infinite;
+  }
+  @keyframes pulse-live {
+    0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(57,255,20,0.7); }
+    50%       { opacity: 0.45; box-shadow: 0 0 2px rgba(57,255,20,0.2); }
+  }
+  .lock-btn {
+    width: 34px; height: 34px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text-dim); font-size: 16px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .lock-btn:hover { color: var(--green); border-color: var(--border2); }
 
-  /* Checks grid */
+  .score-section-label {
+    font-size: 10px; color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: 0.13em;
+    margin-bottom: 0.85rem;
+  }
+
+  /* Ring + right panels */
+  .score-body { display: flex; gap: 1rem; align-items: stretch; margin-bottom: 1rem; }
+
+  .score-left { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ring-wrap { position: relative; width: 130px; height: 130px; }
+  .ring-wrap svg { display: block; }
+  #scoreRing { transition: stroke-dashoffset 0.5s ease, stroke 0.4s ease; }
+  .ring-center {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  .score-number { font-size: 36px; font-weight: 600; color: var(--text); line-height: 1; }
+  .score-label-text { font-size: 12px; font-weight: 500; margin-top: 4px; text-transform: capitalize; transition: color 0.3s; }
+
+  .score-right { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+
+  .panel-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+  .panel-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.11em; margin-bottom: 5px; }
+
+  /* 2×2 comp grid inside the score card */
+  .comp-grid-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+
+  /* Strength Indicator */
+  .indicator-section { margin-top: 0.15rem; }
+  .indicator-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.11em; margin-bottom: 8px; }
+  .indicator-track {
+    position: relative; height: 8px; border-radius: 4px;
+    background: linear-gradient(to right, #ff3b3b 0%, #ff7a00 25%, #ffb800 50%, #22dd00 75%, #39ff14 100%);
+  }
+  .indicator-thumb {
+    position: absolute; width: 16px; height: 16px; border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.55), 0 0 0 2px rgba(255,255,255,0.18);
+    top: 50%; transform: translate(-50%, -50%);
+    left: 0%; transition: left 0.4s ease;
+  }
+
+  /* ── Checks grid ── */
   .checks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 1.25rem; }
   .check-item { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 8px 12px; font-size: 12px; color: var(--text-dim); transition: border-color 0.2s, color 0.2s; }
-  .check-item.pass { border-color: rgba(0,255,80,0.3); color: var(--text); }
+  .check-item.pass { border-color: rgba(57,255,20,0.3); color: var(--text); }
   .check-item.fail { border-color: rgba(255,59,59,0.2); color: #7a4a4a; }
   .check-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); flex-shrink: 0; transition: background 0.2s; }
-  .check-item.pass .check-dot { background: var(--green); box-shadow: 0 0 6px rgba(0,255,80,0.5); }
+  .check-item.pass .check-dot { background: var(--green); box-shadow: 0 0 6px rgba(57,255,20,0.5); }
   .check-item.fail .check-dot { background: var(--red); }
 
-  /* Composition grid */
+  /* ── Composition grid ── */
   .comp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 1.25rem; }
   .comp-item { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 10px 8px; text-align: center; transition: border-color 0.2s; }
-  .comp-item.nonzero { border-color: rgba(0,255,80,0.2); }
+  .comp-item.nonzero { border-color: rgba(57,255,20,0.2); }
   .comp-count { font-size: 20px; font-weight: 600; color: var(--green); display: block; line-height: 1; margin-bottom: 4px; }
   .comp-item:not(.nonzero) .comp-count { color: var(--text-dim); }
   .comp-label { font-size: 10px; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase; }
 
-  /* Stats row */
+  /* ── Stats row ── */
   .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 1.25rem; }
   .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
   .stat-label { font-size: 11px; color: var(--text-dim); }
   .stat-sublabel { font-size: 10px; opacity: 0.7; }
   .stat-value { font-size: 13px; font-weight: 600; }
 
-  /* HIBP */
+  /* ── HIBP ── */
   .hibp-box { border-radius: 4px; padding: 10px 14px; font-size: 12px; display: none; align-items: center; gap: 8px; line-height: 1.4; }
   .hibp-box.show { display: flex; }
-  .hibp-box.safe { background: rgba(0,255,80,0.05); border: 1px solid rgba(0,255,80,0.18); color: var(--text); }
+  .hibp-box.safe     { background: rgba(57,255,20,0.05); border: 1px solid rgba(57,255,20,0.18); color: var(--text); }
   .hibp-box.breached { background: rgba(255,59,59,0.07); border: 1px solid rgba(255,59,59,0.25); color: #ff8888; }
   .hibp-box.checking { background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); }
   .hibp-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-  .hibp-box.safe .hibp-dot { background: var(--green); box-shadow: 0 0 6px rgba(0,255,80,0.4); }
+  .hibp-box.safe .hibp-dot     { background: var(--green); box-shadow: 0 0 6px rgba(57,255,20,0.4); }
   .hibp-box.breached .hibp-dot { background: var(--red); }
   .hibp-box.checking .hibp-dot { background: var(--text-dim); animation: pulse 1.2s ease-in-out infinite; }
   @keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
 
-  /* Footer */
+  /* ── Footer ── */
   .privacy-note { font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 1.5rem; line-height: 1.5; }
-  .privacy-note span { color: rgba(0,255,80,0.35); }
+  .privacy-note span { color: rgba(57,255,20,0.35); }
+
+  @media (max-width: 480px) {
+    .score-body { flex-direction: column; }
+    .score-left { justify-content: flex-start; }
+  }
   </style>
 </head>
 <body>
@@ -123,11 +215,66 @@
 
   <div class="input-meta"><span id="charCount"></span></div>
 
-  <div class="meter-wrap">
-    <div class="meter-bar"><div class="meter-fill" id="meterFill"></div></div>
-    <div class="meter-row">
-      <span class="meter-label" id="meterLabel">awaiting input</span>
-      <span class="meter-score" id="meterScore" style="color:var(--text-dim)">—</span>
+  <!-- Score Card -->
+  <div class="score-card">
+    <div class="score-card-header">
+      <div class="live-badge"><span class="live-dot"></span>LIVE</div>
+      <button class="lock-btn" onclick="toggleVis()" title="Show/hide password">
+        <i class="ti ti-lock" id="lockIcon"></i>
+      </button>
+    </div>
+    <div class="score-section-label">Strength Score</div>
+
+    <div class="score-body">
+      <!-- Circular ring gauge -->
+      <div class="score-left">
+        <div class="ring-wrap">
+          <svg viewBox="0 0 130 130" width="130" height="130" aria-hidden="true">
+            <circle cx="65" cy="65" r="54" fill="none" stroke="#0c1a0a" stroke-width="10"/>
+            <circle id="scoreRing" cx="65" cy="65" r="54" fill="none"
+              stroke="#172612" stroke-width="10" stroke-linecap="round"
+              stroke-dasharray="339.29" stroke-dashoffset="339.29"
+              transform="rotate(-90 65 65)"/>
+          </svg>
+          <div class="ring-center">
+            <span class="score-number" id="scoreNumber">—</span>
+            <span class="score-label-text" id="scoreLabelText" style="color:var(--text-dim)">awaiting</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character breakdown -->
+      <div class="score-right">
+        <div class="panel-box">
+          <div class="panel-label">Character breakdown</div>
+          <div class="comp-grid-mini">
+            <div class="comp-item" id="ci-upper">
+              <span class="comp-count" id="comp-upper">—</span>
+              <span class="comp-label">Uppercase</span>
+            </div>
+            <div class="comp-item" id="ci-lower">
+              <span class="comp-count" id="comp-lower">—</span>
+              <span class="comp-label">Lowercase</span>
+            </div>
+            <div class="comp-item" id="ci-num">
+              <span class="comp-count" id="comp-num">—</span>
+              <span class="comp-label">Numbers</span>
+            </div>
+            <div class="comp-item" id="ci-sym">
+              <span class="comp-count" id="comp-sym">—</span>
+              <span class="comp-label">Symbols</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gradient strength indicator -->
+    <div class="indicator-section">
+      <div class="indicator-label">Strength Indicator</div>
+      <div class="indicator-track">
+        <div class="indicator-thumb" id="indicatorThumb"></div>
+      </div>
     </div>
   </div>
 
@@ -138,25 +285,6 @@
     <div class="check-item" id="c-num"><span class="check-dot"></span>Numbers</div>
     <div class="check-item" id="c-sym"><span class="check-dot"></span>Symbols</div>
     <div class="check-item" id="c-common"><span class="check-dot"></span>No common patterns</div>
-  </div>
-
-  <div class="comp-grid">
-    <div class="comp-item" id="ci-upper">
-      <span class="comp-count" id="comp-upper">—</span>
-      <span class="comp-label">Uppercase</span>
-    </div>
-    <div class="comp-item" id="ci-lower">
-      <span class="comp-count" id="comp-lower">—</span>
-      <span class="comp-label">Lowercase</span>
-    </div>
-    <div class="comp-item" id="ci-num">
-      <span class="comp-count" id="comp-num">—</span>
-      <span class="comp-label">Numbers</span>
-    </div>
-    <div class="comp-item" id="ci-sym">
-      <span class="comp-count" id="comp-sym">—</span>
-      <span class="comp-label">Symbols</span>
-    </div>
   </div>
 
   <div class="stats-row">
@@ -249,21 +377,16 @@ function formatTime(sec) {
 }
 
 function timeColor(sec) {
-  if (sec < 3600)     return '#ff3b3b'; // under 1 hour → red
-  if (sec < 2592000)  return '#ff7a00'; // under 1 month → orange
-  if (sec < 31536000) return '#ffb800'; // under 1 year → amber
-  return '#00ff50';                     // 1+ year → green
+  if (sec < 3600)     return '#ff3b3b';
+  if (sec < 2592000)  return '#ff7a00';
+  if (sec < 31536000) return '#ffb800';
+  return '#39ff14';
 }
 
-// Returns how many guesses an attacker realistically needs,
-// accounting for pattern-based attack rules (not just brute force).
 function effectiveGuesses(pw) {
-  const lc = pw.toLowerCase();
+  const lc   = pw.toLowerCase();
   const norm = normalizeLeet(lc);
-
-  // Trivially crackable — in wordlist or all same char
   if (COMMON.has(lc) || /^(.)\1+$/.test(pw)) return 1;
-
   let pool = 0;
   if (/[a-z]/.test(pw)) pool += 26;
   if (/[A-Z]/.test(pw)) pool += 26;
@@ -271,29 +394,13 @@ function effectiveGuesses(pw) {
   if (/[^A-Za-z0-9]/.test(pw)) pool += 32;
   if (pool === 0) pool = 26;
   const brute = Math.pow(2, pw.length * Math.log2(pool));
-
-  // Leet-speak variation of a common password
-  // Rule-based attacks (Hashcat -r best64.rule) find these in ~100K guesses
   if (COMMON.has(norm)) return Math.min(brute, 1e5);
-
-  // Sequential digits or letters — ~1K known sequences
   if (/0123|1234|2345|3456|4567|5678|6789|7890|9876|8765|7654|6543|5432|4321|3210/.test(pw) ||
-      /abcde|bcdef|cdefg|defgh|efghi|fghij|ghijk|hijkl|ijklm|jklmn/i.test(pw)) {
-    return Math.min(brute, 1e3);
-  }
-
-  // Keyboard walk — Hashcat has dedicated keyboard-walk rules (~50K patterns)
-  if (/qwerty|werty|asdfg|sdfgh|zxcvb|xcvbn|qazwsx|wsxedc/i.test(pw)) {
-    return Math.min(brute, 5e4);
-  }
-
-  // Repeated block (abcabc) — ~1M effective search space
+      /abcde|bcdef|cdefg|defgh|efghi|fghij|ghijk|hijkl|ijklm|jklmn/i.test(pw)) return Math.min(brute, 1e3);
+  if (/qwerty|werty|asdfg|sdfgh|zxcvb|xcvbn|qazwsx|wsxedc/i.test(pw)) return Math.min(brute, 5e4);
   const h = Math.floor(pw.length / 2);
   if (h >= 3 && pw.slice(0, h) === pw.slice(h, h * 2)) return Math.min(brute, 1e6);
-
-  // Year pattern in short password — ~110 years × common surrounding patterns
   if (pw.length < 14 && /(19[2-9]\d|20[0-2]\d)/.test(pw)) return Math.min(brute, brute / 1e3);
-
   return brute;
 }
 
@@ -331,10 +438,9 @@ function scorePassword(pw) {
   }
   score = Math.max(0, Math.min(100, score));
 
-  // Pattern-aware crack times
-  const guesses = effectiveGuesses(pw);
-  const crackOnline  = formatTime(guesses / 100);    // throttled login: ~100 guesses/sec
-  const crackOffline = formatTime(guesses / 1e10);   // GPU offline: ~10B guesses/sec
+  const guesses      = effectiveGuesses(pw);
+  const crackOnline  = formatTime(guesses / 100);
+  const crackOffline = formatTime(guesses / 1e10);
 
   const composition = {
     upper: (pw.match(/[A-Z]/g) || []).length,
@@ -347,34 +453,47 @@ function scorePassword(pw) {
 }
 
 // ── UI update ─────────────────────────────────────────────────────────────────
+const CIRC = 2 * Math.PI * 54; // r=54 → 339.29
+
 function updateUI(pw) {
   const { score, checks, crackOnline, crackOffline, entropy, composition } = scorePassword(pw);
 
-  const compMap = { 'comp-upper': ['ci-upper', composition.upper], 'comp-lower': ['ci-lower', composition.lower], 'comp-num': ['ci-num', composition.num], 'comp-sym': ['ci-sym', composition.sym] };
+  // Composition grid
+  const compMap = {
+    'comp-upper': ['ci-upper', composition.upper],
+    'comp-lower': ['ci-lower', composition.lower],
+    'comp-num':   ['ci-num',   composition.num],
+    'comp-sym':   ['ci-sym',   composition.sym],
+  };
   Object.entries(compMap).forEach(([spanId, [itemId, val]]) => {
     document.getElementById(spanId).textContent = pw ? val : '—';
     document.getElementById(itemId).classList.toggle('nonzero', pw ? val > 0 : false);
   });
 
+  // Check items
   Object.entries({ 'c-len': checks.len, 'c-upper': checks.upper, 'c-lower': checks.lower, 'c-num': checks.num, 'c-sym': checks.sym, 'c-common': checks.common }).forEach(([id, pass]) => {
     const el = document.getElementById(id);
-    el.classList.toggle('pass', pass);
+    el.classList.toggle('pass', !!pass);
     el.classList.toggle('fail', !pass && pw.length > 0);
   });
 
   document.getElementById('charCount').textContent = pw ? pw.length + (pw.length === 1 ? ' character' : ' characters') : '';
 
-  const fill        = document.getElementById('meterFill');
-  const label       = document.getElementById('meterLabel');
-  const scoreEl     = document.getElementById('meterScore');
-  const onlineEl    = document.getElementById('crackOnline');
-  const offlineEl   = document.getElementById('crackOffline');
-  const entropyEl   = document.getElementById('entropyValue');
+  // Score card elements
+  const ring       = document.getElementById('scoreRing');
+  const scoreNumEl = document.getElementById('scoreNumber');
+  const scoreLblEl = document.getElementById('scoreLabelText');
+  const thumb      = document.getElementById('indicatorThumb');
+  const onlineEl  = document.getElementById('crackOnline');
+  const offlineEl = document.getElementById('crackOffline');
+  const entropyEl = document.getElementById('entropyValue');
 
   if (!pw) {
-    fill.style.width = '0%'; fill.style.background = 'var(--text-dim)';
-    label.textContent = 'awaiting input';
-    scoreEl.textContent = '—'; scoreEl.style.color = 'var(--text-dim)';
+    ring.style.strokeDashoffset = CIRC;
+    ring.style.stroke = '#172612';
+    scoreNumEl.textContent = '—'; scoreNumEl.style.color = 'var(--text-dim)';
+    scoreLblEl.textContent = 'awaiting'; scoreLblEl.style.color = 'var(--text-dim)';
+    thumb.style.left = '0%';
     onlineEl.textContent = '—'; onlineEl.style.color = 'var(--green)';
     offlineEl.textContent = '—'; offlineEl.style.color = 'var(--green)';
     entropyEl.textContent = '—'; entropyEl.style.color = 'var(--green)';
@@ -385,30 +504,33 @@ function updateUI(pw) {
   if      (score < 35) { color = '#ff3b3b'; lbl = 'critical'; }
   else if (score < 55) { color = '#ff7a00'; lbl = 'weak'; }
   else if (score < 75) { color = '#ffb800'; lbl = 'fair'; }
-  else if (score < 90) { color = '#7eef5a'; lbl = 'strong'; }
-  else                 { color = '#00ff50'; lbl = 'excellent'; }
+  else if (score < 90) { color = '#22dd00'; lbl = 'strong'; }
+  else                 { color = '#39ff14'; lbl = 'excellent'; }
 
-  fill.style.width = score + '%';
-  fill.style.background = color;
-  label.textContent = lbl;
-  scoreEl.textContent = score + '/100';
-  scoreEl.style.color = color;
+  // Ring
+  ring.style.strokeDashoffset = CIRC * (1 - score / 100);
+  ring.style.stroke = color;
+  scoreNumEl.textContent = score; scoreNumEl.style.color = 'var(--text)';
+  scoreLblEl.textContent = lbl;   scoreLblEl.style.color = color;
 
+  const entColor = entropy < 40 ? '#ff3b3b' : entropy < 60 ? '#ffb800' : '#39ff14';
+
+  // Strength indicator thumb
+  thumb.style.left = score + '%';
+
+  // Crack times + entropy stat
   const guesses = effectiveGuesses(pw);
-  onlineEl.textContent  = crackOnline;
-  onlineEl.style.color  = timeColor(guesses / 100);
-  offlineEl.textContent = crackOffline;
-  offlineEl.style.color = timeColor(guesses / 1e10);
-  entropyEl.textContent = entropy + ' bits';
-  entropyEl.style.color = entropy < 40 ? '#ff3b3b' : entropy < 60 ? '#ffb800' : '#00ff50';
+  onlineEl.textContent  = crackOnline;  onlineEl.style.color  = timeColor(guesses / 100);
+  offlineEl.textContent = crackOffline; offlineEl.style.color = timeColor(guesses / 1e10);
+  entropyEl.textContent = entropy + ' bits'; entropyEl.style.color = entColor;
 }
 
 // ── Visibility toggle ─────────────────────────────────────────────────────────
 function toggleVis() {
-  const inp = document.getElementById('pw');
+  const inp  = document.getElementById('pw');
   const icon = document.getElementById('eyeIcon');
-  if (inp.type === 'password') { inp.type = 'text'; icon.className = 'ti ti-eye-off'; }
-  else { inp.type = 'password'; icon.className = 'ti ti-eye'; }
+  if (inp.type === 'password') { inp.type = 'text';     icon.className = 'ti ti-eye-off'; }
+  else                         { inp.type = 'password'; icon.className = 'ti ti-eye'; }
 }
 
 // ── Password generator ────────────────────────────────────────────────────────
@@ -439,9 +561,9 @@ function generatePassword() {
   }
 
   const generated = pw.join('');
-  const input = document.getElementById('pw');
-  input.value = generated;
-  input.type = 'text';
+  const input     = document.getElementById('pw');
+  input.value     = generated;
+  input.type      = 'text';
   document.getElementById('eyeIcon').className = 'ti ti-eye-off';
   updateUI(generated);
   scheduleHibpCheck(generated);
@@ -465,8 +587,8 @@ async function checkHIBP(pw) {
   const box = document.getElementById('hibpBox');
   const txt = document.getElementById('hibpText');
   try {
-    const buf = await crypto.subtle.digest('SHA-1', new TextEncoder().encode(pw));
-    const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').toUpperCase();
+    const buf    = await crypto.subtle.digest('SHA-1', new TextEncoder().encode(pw));
+    const hex    = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('').toUpperCase();
     const prefix = hex.slice(0, 5);
     const suffix = hex.slice(5);
 
